@@ -50,16 +50,18 @@ private:
 };
 
 void tampilkanMenu() {
-    std::cout << "||=====================================================||\n";
-    std::cout << "||                 Menu Pengolah Kata                  ||\n";
-    std::cout << "+---+---------------------------------------------------+\n";
-    std::cout << "| 1 | Ketik        => (Menampilkan teks)                |\n";
-    std::cout << "| 2 | Undo         => (Menghapus aksi terakhir)         |\n";
-    std::cout << "| 3 | Redo         => (Mengulangi aksi yang dibatalkan) |\n";
-    std::cout << "| 4 | IsEmptyUndo  => (Periksa apakah undo kosong)      |\n";
-    std::cout << "| 5 | IsEmptyRedo  => (Periksa apakah redo kosong)      |\n";
-    std::cout << "| 6 | Keluar       => (Menutup program)                 |\n";
-    std::cout << "+---+---------------------------------------------------+\n";
+    std::cout << "||================++===================================||\n";
+    std::cout << "||====     HI WELCOME TO MENU PENGOLAHAN KATA      ====||\n";    
+    std::cout << "||================++===================================||\n";
+    std::cout << "||    Pilihan     ||           Fungsi                  ||\n";
+    std::cout << "+---+-------------++------------------------------------+\n";
+    std::cout << "| 1 | Ketik       ||      Menampilkan teks             ||\n";
+    std::cout << "| 2 | Undo        ||   Menghapus aksi terakhir         ||\n";
+    std::cout << "| 3 | Redo        ||  Mengulangi aksi yang dibatalkan  ||\n";
+    std::cout << "| 4 | IsEmptyUndo ||  Periksa apakah undo kosong       ||\n";
+    std::cout << "| 5 | IsEmptyRedo ||   Periksa apakah redo kosong      ||\n";
+    std::cout << "| 6 | Keluar      ||      Menutup program              ||\n";
+    std::cout << "+---+-------------++------------------------------------+\n";
     std::cout << "Pilih perintah (1-6): ";
 }
 
