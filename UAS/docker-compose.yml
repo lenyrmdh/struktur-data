@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.2
+    container_name: mysql_cpp_new
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3307:3306"  # Ganti port host di sini
+    volumes:
+      - ./database/data:/var/lib/mysql
+      - ./database/conf.d:/etc/mysql/conf.d:ro
+    environment:
+      MYSQL_DATABASE: perpustakaan
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123
+    networks:
+      - app-network
+
+  cpp_app:
+    build: .
+    container_name: cpp_app_container
+    depends_on:
+      - db
+    networks:
+      - app-network
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    command: bash -c "g++ -o program main.cpp -lmysqlclient && ./program"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

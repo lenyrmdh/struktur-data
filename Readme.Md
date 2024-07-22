@@ -1,0 +1,17 @@
+# CARA MEMBUAT DATABASENYA
+- siapkan di vscode file/folder yang akan dibutuhkan 
+- masuk ke file atau direktorinya
+- ketik di terminal nano docker-compose.yml 
+- ctrl x , ctrl y
+- docker compose up -d --build 
+- pastikan build berhasil dan tidak ada eror 
+- buka navicat
+- conection, add new conection (mysql) dengan conection yang telah anda disediakan
+- add new table jika sudah buka terminal lagi
+- apt-get install libmysqlclient-dev 
+- [Y/N] pilih Y
+- lakukan hingga install selesai
+- buka vscode dan compile 
+- g++ -o (namafile) -lmysqlclient
+- ./(namafile)
+- jika sudah maka hasil output akan otomatis terhubung dengan database di navicat. 
