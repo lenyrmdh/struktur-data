@@ -1,6 +1,7 @@
 #include <iostream>
 #include <mysql/mysql.h>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -25,6 +26,35 @@ MYSQL* connect_db() {
         cerr << "mysql_init gagal" << endl;
     }
     return conn;
+}
+
+bool login(const string& username, const string& password, const string& role) {
+    MYSQL* conn = connect_db();
+    if (conn) {
+        stringstream query;
+        query << "SELECT COUNT(*) FROM users WHERE username = '" << username << "' AND password = '" << password << "' AND role = '" << role << "'";
+        if (mysql_query(conn, query.str().c_str())) {
+            cerr << "Gagal melakukan query: " << mysql_error(conn) << endl;
+            mysql_close(conn);
+            return false;
+        }
+
+        MYSQL_RES* res = mysql_store_result(conn);
+        if (res == nullptr) {
+            cerr << "Gagal mengambil hasil: " << mysql_error(conn) << endl;
+            mysql_close(conn);
+            return false;
+        }
+
+        MYSQL_ROW row = mysql_fetch_row(res);
+        bool result = (stoi(row[0]) > 0);
+
+        mysql_free_result(res);
+        mysql_close(conn);
+
+        return result;
+    }
+    return false;
 }
 
 void tambah_buku(const string& judul, const string& penulis, const string& penerbit, int tahun) {
@@ -196,15 +226,32 @@ void menu_user() {
 
 int main() {
     int peran;
-    cout << "Masukkan peran (1 untuk Admin, 2 untuk User): ";
-    cin >> peran;
+    string username, password;
+    int attempts = 0;
+    const int max_attempts = 3;
 
-    if (peran == 1) {
-        menu_admin();
-    } else if (peran == 2) {
-        menu_user();
-    } else {
-        cout << "Peran tidak valid. Keluar." << endl;
+    while (attempts < max_attempts) {
+        cout << "Masukkan username: ";
+        cin >> username;
+        cout << "Masukkan password: ";
+        cin >> password;
+        cout << "Masukkan peran (1 untuk Admin, 2 untuk User): ";
+        cin >> peran;
+
+        if ((peran == 1 && login(username, password, "admin")) || (peran == 2 && login(username, password, "user"))) {
+            if (peran == 1) {
+                menu_admin();
+            } else if (peran == 2) {
+                menu_user();
+            }
+            break;
+        } else {
+            cout << "Login gagal. Coba lagi." << endl;
+            attempts++;
+            if (attempts >= max_attempts) {
+                cout << "Akses ditolak. Terlalu banyak percobaan." << endl;
+            }
+        }
     }
 
     return 0;
